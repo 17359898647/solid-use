@@ -1,15 +1,25 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "types": [
+      "solid-js",
+      "vite/client",
+      "node",
+      "@testing-library/jest-dom",
+      "vitest/globals"
+    ],
     "strict": true,
     "strictNullChecks": true,
     "noEmit": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
+
   }
 }
