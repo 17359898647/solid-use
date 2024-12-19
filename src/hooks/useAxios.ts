@@ -2,6 +2,7 @@ import type { Accessor, Setter } from 'solid-js'
 import type { MaybeAccessor } from './access'
 import type { EventHookOn } from './createEventHook'
 import { createEffect, createSignal, on, onMount } from 'solid-js'
+import { noop } from '../common'
 import { access } from './access'
 import { createEventHook } from './createEventHook'
 import { until } from './until'
@@ -62,11 +63,11 @@ export function useAxios<T = any, P = any>(...args: any[]): IUseAxiosReturn<T, P
   if (args.length === 3) {
     [params, fetch, options] = args
   }
-  const { immediate = true, resetOnExecute = true } = options
+  const { immediate = true, resetOnExecute = true, onSuccess = noop, onError = noop, onFinally = noop, initialData } = options
   const successEvent = createEventHook<T | undefined>()
   const errorEvent = createEventHook<any>()
   const finallyEvent = createEventHook<any>()
-  const [data, setData] = createSignal<T | undefined>(options.initialData)
+  const [data, setData] = createSignal<T | undefined>(initialData)
   const [loading, setLoading] = createSignal(false)
   const [error, setError] = createSignal<any>()
   const [finished, setFinished] = createSignal(false)
@@ -75,7 +76,7 @@ export function useAxios<T = any, P = any>(...args: any[]): IUseAxiosReturn<T, P
 
   const resetData = () => {
     if (resetOnExecute) {
-      setData(() => options.initialData)
+      setData(() => initialData)
     }
   }
   const { toBe } = until(finished)
@@ -116,14 +117,14 @@ export function useAxios<T = any, P = any>(...args: any[]): IUseAxiosReturn<T, P
       .then((result) => {
         setData(() => result)
         successEvent.trigger(result)
-        options.onSuccess?.(result)
+        onSuccess(result)
       })
       .catch((error) => {
         if (error === ABORT_ERROR || activeRequestCount !== 0)
           return
         setError(error)
         errorEvent.trigger(error)
-        options.onError?.(error)
+        onError(error)
       })
       .finally(() => {
         if (activeRequestCount !== 0)
@@ -131,7 +132,7 @@ export function useAxios<T = any, P = any>(...args: any[]): IUseAxiosReturn<T, P
         setLoading(false)
         setFinished(true)
         finallyEvent.trigger()
-        options.onFinally?.()
+        onFinally()
       })
 
     return promise
