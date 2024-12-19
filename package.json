@@ -47,6 +47,9 @@
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks"
   },
+  "dependencies": {
+    "solid-js": "^1.9.3"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^3.11.2",
     "@antfu/ni": "^0.23.1",
