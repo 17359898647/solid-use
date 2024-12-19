@@ -1,11 +1,11 @@
 import type { Accessor, Setter } from 'solid-js'
-import type { MaybeAccessor } from './access'
-import type { EventHookOn } from './createEventHook'
+import type { MaybeAccessor } from '../access'
+import type { EventHookOn } from '../createEventHook'
 import { createEffect, createSignal, on, onMount } from 'solid-js'
-import { noop } from '../common'
-import { access } from './access'
-import { createEventHook } from './createEventHook'
-import { until } from './until'
+import { noop } from '../../common'
+import { access } from '../access'
+import { createEventHook } from '../createEventHook'
+import { until } from '../until'
 
 type MaybePromise<T> = Promise<T> | T
 type IAxiosPromise<T, U> = (Params: U) => MaybePromise<T>

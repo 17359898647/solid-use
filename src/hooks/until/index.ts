@@ -1,6 +1,6 @@
-import type { MaybeAccessor } from './access'
+import type { MaybeAccessor } from '../access'
 import { observable } from 'solid-js'
-import { access } from './access'
+import { access } from '../access'
 
 export interface IUntilTypeReturn {
   toBe: (v: any) => Promise<void>
